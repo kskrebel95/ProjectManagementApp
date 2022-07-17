@@ -4,7 +4,7 @@ import { useState } from "react";
 export const Project = (props) => {
   const jobs = Object.values(props);
   // console.log(jobs[0].length);
-  // console.log(props);
+  console.log(props);
   const JobPiece = ({ name, desc }) => {
     // console.log(name, desc);
     return (
