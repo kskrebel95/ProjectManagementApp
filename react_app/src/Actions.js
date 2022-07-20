@@ -1,10 +1,29 @@
 import React from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { addToTable } from "./features/actions";
 
 const projects = JSON.parse(localStorage.getItem("projects"));
 
-const TableRow = () => {
+const TableRowFromRedux = () => {
+  const projectactions = useSelector((state) => state.projectactions.value);
+
+  return (
+    <tbody>
+      <tr>
+        <th>{projectactions.action_name}</th>
+        <td>{projectactions.action_desc}</td>
+        <td>{projectactions.action_severity}</td>
+        <td>{projectactions.action_budget}</td>
+        <td>{projectactions.action_start_date}</td>
+        <td>{projectactions.action_end_date}</td>
+      </tr>
+    </tbody>
+  );
+};
+const TableRowFromLocal = () => {
   const params = useParams();
   console.log(params.projectname);
   console.log(projects[params.projectname].project_name);
@@ -48,15 +67,10 @@ export const Actions = (props) => {
   const [action_severity, setAction_severity] = useState("");
   const [actions, setActions] = useState([]);
 
+  const dispatch = useDispatch();
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    // console.log(
-    //   project_name,
-    //   project_dAction
-    //   project_start_date,
-    //   project_end_date,
-    //   project_budget
-    // );
     actions.push({
       action_name: action_name,
       action_desc: action_desc,
@@ -98,7 +112,9 @@ export const Actions = (props) => {
             </tr>
           </thead>
           {/* <tbody> */}
-          <TableRow />
+          <TableRowFromLocal />
+          <TableRowFromRedux />
+
           {/* </tbody> */}
         </table>
       </div>
@@ -201,7 +217,22 @@ export const Actions = (props) => {
 
           {/* Submit Action  */}
           <div className="buttons">
-            <button className="button is-primary" type="submit">
+            <button
+              onClick={() => {
+                dispatch(
+                  addToTable({
+                    action_name: action_name,
+                    action_desc: action_desc,
+                    action_start_date: action_start_date,
+                    action_end_date: action_end_date,
+                    action_budget: action_budget,
+                    action_severity: action_severity,
+                  })
+                );
+              }}
+              className="button is-primary"
+              type="submit"
+            >
               Add New Action
             </button>
           </div>

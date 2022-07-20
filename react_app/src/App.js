@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import { CreateProject } from "./CreateProject";
 import { Project } from "./Projects";
 import { EachProject } from "./EachProject";
+import { ReduxPractice } from "./components/ReduxPractice";
 
 export const App = () => {
   return (
@@ -16,6 +17,7 @@ export const App = () => {
           }
         />
         <Route path="/eachproject/:projectname" element={<EachProject />} />
+        <Route path="/reduxpractice" element={<ReduxPractice />} />
       </Routes>
     </div>
   );
