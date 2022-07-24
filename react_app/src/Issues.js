@@ -4,14 +4,14 @@ import { useParams } from "react-router-dom";
 
 const projects = JSON.parse(localStorage.getItem("projects"));
 
-const TableRow = () => {
+const TableRowFromLocal = () => {
   const params = useParams();
-  console.log(params.projectname);
-  console.log(projects[params.projectname].project_name);
+  // console.log(params.projectname);
+  // console.log(projects[params.projectname].project_name);
   const project = projects[params.projectname].project_name;
-  console.log(project);
+  // console.log(project);
   const job = JSON.parse(localStorage.getItem(project + "_issues"));
-  console.log(job);
+  // console.log(job);
 
   if (job) {
     return (
@@ -40,7 +40,7 @@ const TableRow = () => {
   }
 };
 
-export const Issues = (props) => {
+export const Issues = (project) => {
   const [issue_name, setIssue_name] = useState("");
   const [issue_desc, setIssue_desc] = useState("");
   const [issue_solution, setIssue_solution] = useState("");
@@ -52,14 +52,9 @@ export const Issues = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // console.log(
-    //   project_name,
-    //   project_desc
-    //   project_start_date,
-    //   project_end_date,
-    //   project_budget
-    // );
-    issues.push({
+    const issue = project.name + "_issues";
+    let oldIssues = JSON.parse(localStorage.getItem(issue)) || [];
+    let newIssue = {
       issue_name: issue_name,
       issue_desc: issue_desc,
       issue_solution: issue_solution,
@@ -67,13 +62,22 @@ export const Issues = (props) => {
       issue_budget: issue_budget,
       issue_reported_date: issue_reported_date,
       issue_solution_date: issue_solution_date,
-    });
-    setIssues(issues);
-    const issue = props.name + "_issues";
-    localStorage.setItem(issue, JSON.stringify(issues));
+    };
+    oldIssues.push(newIssue);
+
+    localStorage.setItem(issue, JSON.stringify(oldIssues));
     // localStorage.removeItem(props.name + "_issues");
+
+    // Clear form
+    setIssue_name("");
+    setIssue_desc("");
+    setIssue_solution("");
+    setIssue_severity("");
+    setIssue_reported_date("");
+    setIssue_solution_date("");
+    setIssue_budget("");
   };
-  console.log(props.name);
+  // console.log(props.name);
   return (
     <div>
       {/* Issues Table  */}
@@ -102,7 +106,7 @@ export const Issues = (props) => {
             </tr>
           </thead>
           {/* <tbody> */}
-          <TableRow />
+          <TableRowFromLocal />
           {/* </tbody> */}
         </table>
       </div>

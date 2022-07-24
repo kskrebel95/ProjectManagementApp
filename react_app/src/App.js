@@ -1,8 +1,9 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { CreateProject } from "./CreateProject";
-import { Project } from "./Projects";
-import { EachProject } from "./EachProject";
+import { ProjectListViewGrid } from "./ProjectListViewGrid";
+import { ProjectListViewTable } from "./ProjectListViewTable";
+import { EachProjectDetialsList } from "./EachProjectDetialsList";
 import { ReduxPractice } from "./components/ReduxPractice";
 
 export const App = () => {
@@ -13,10 +14,16 @@ export const App = () => {
         <Route
           path="/projects"
           element={
-            <Project projects={JSON.parse(localStorage.getItem("projects"))} />
+            <ProjectListViewGrid
+              projects={JSON.parse(localStorage.getItem("projects"))}
+            />
           }
         />
-        <Route path="/eachproject/:projectname" element={<EachProject />} />
+        <Route path="/projects-table" element={<ProjectListViewTable />} />
+        <Route
+          path="/eachproject/:projectname"
+          element={<EachProjectDetialsList />}
+        />
         <Route path="/reduxpractice" element={<ReduxPractice />} />
       </Routes>
     </div>

@@ -7,30 +7,30 @@ import { addToTable } from "./features/actions";
 
 const projects = JSON.parse(localStorage.getItem("projects"));
 
-const TableRowFromRedux = () => {
-  const projectactions = useSelector((state) => state.projectactions.value);
+// const TableRowFromRedux = () => {
+//   const project_actions = useSelector((state) => state.projectactions.value);
 
-  return (
-    <tbody>
-      <tr>
-        <th>{projectactions.action_name}</th>
-        <td>{projectactions.action_desc}</td>
-        <td>{projectactions.action_severity}</td>
-        <td>{projectactions.action_budget}</td>
-        <td>{projectactions.action_start_date}</td>
-        <td>{projectactions.action_end_date}</td>
-      </tr>
-    </tbody>
-  );
-};
+//   return (
+//     <tbody>
+//       <tr>
+//         <th>{project_actions.action_name}</th>
+//         <td>{project_actions.action_desc}</td>
+//         <td>{project_actions.action_severity}</td>
+//         <td>{project_actions.action_budget}</td>
+//         <td>{project_actions.action_start_date}</td>
+//         <td>{project_actions.action_end_date}</td>
+//       </tr>
+//     </tbody>
+//   );
+// };
 const TableRowFromLocal = () => {
   const params = useParams();
-  console.log(params.projectname);
-  console.log(projects[params.projectname].project_name);
+  // console.log(params.projectname);
+  // console.log(projects[params.projectname].project_name);
   const project = projects[params.projectname].project_name;
-  console.log(project);
+  // console.log(project);
   const job = JSON.parse(localStorage.getItem(project + "_actions"));
-  console.log(job);
+  // console.log(job);
 
   if (job) {
     return (
@@ -58,7 +58,7 @@ const TableRowFromLocal = () => {
   }
 };
 
-export const Actions = (props) => {
+export const Actions = (project) => {
   const [action_name, setAction_name] = useState("");
   const [action_desc, setAction_desc] = useState("");
   const [action_start_date, setAction_start_date] = useState("");
@@ -67,24 +67,45 @@ export const Actions = (props) => {
   const [action_severity, setAction_severity] = useState("");
   const [actions, setActions] = useState([]);
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    actions.push({
+    const action = project.name + "_actions";
+    let oldActions = JSON.parse(localStorage.getItem(action)) || [];
+
+    let newAction = {
       action_name: action_name,
       action_desc: action_desc,
       action_start_date: action_start_date,
       action_end_date: action_end_date,
       action_budget: action_budget,
       action_severity: action_severity,
-    });
-    setActions(actions);
-    const action = props.name + "_actions";
-    localStorage.setItem(action, JSON.stringify(actions));
-    // localStorage.removeItem(props.name + "_actions");
+    };
+
+    oldActions.push(newAction);
+
+    localStorage.setItem(action, JSON.stringify(oldActions));
+    // dispatch(
+    //   addToTable({
+    //     action_name: action_name,
+    //     action_desc: action_desc,
+    //     action_start_date: action_start_date,
+    //     action_end_date: action_end_date,
+    //     action_budget: action_budget,
+    //     action_severity: action_severity,
+    //   })
+    // );
+
+    // Clear form
+    setAction_name("");
+    setAction_desc("");
+    setAction_severity("");
+    setAction_start_date("");
+    setAction_end_date("");
+    setAction_budget("");
   };
-  console.log(props.name);
+  // console.log(props.name);
   return (
     <div>
       {/* Actions Table  */}
@@ -113,7 +134,7 @@ export const Actions = (props) => {
           </thead>
           {/* <tbody> */}
           <TableRowFromLocal />
-          <TableRowFromRedux />
+          {/* <TableRowFromRedux /> */}
 
           {/* </tbody> */}
         </table>
@@ -130,7 +151,9 @@ export const Actions = (props) => {
                 className="input is-success"
                 type="text"
                 value={action_name}
-                onChange={(ev) => setAction_name(ev.target.value)}
+                onChange={(ev) => {
+                  setAction_name(ev.target.value);
+                }}
                 placeholder="Text input"
               />
             </div>
@@ -217,22 +240,7 @@ export const Actions = (props) => {
 
           {/* Submit Action  */}
           <div className="buttons">
-            <button
-              onClick={() => {
-                dispatch(
-                  addToTable({
-                    action_name: action_name,
-                    action_desc: action_desc,
-                    action_start_date: action_start_date,
-                    action_end_date: action_end_date,
-                    action_budget: action_budget,
-                    action_severity: action_severity,
-                  })
-                );
-              }}
-              className="button is-primary"
-              type="submit"
-            >
+            <button className="button is-primary" type="submit">
               Add New Action
             </button>
           </div>

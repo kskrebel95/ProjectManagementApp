@@ -6,12 +6,12 @@ const projects = JSON.parse(localStorage.getItem("projects"));
 
 const TableRow = () => {
   const params = useParams();
-  console.log(params.projectname);
-  console.log(projects[params.projectname].project_name);
+  // console.log(params.projectname);
+  // console.log(projects[params.projectname].project_name);
   const project = projects[params.projectname].project_name;
-  console.log(project);
+  // console.log(project);
   const job = JSON.parse(localStorage.getItem(project + "_risks"));
-  console.log(job);
+  // console.log(job);
 
   if (job) {
     return (
@@ -38,36 +38,37 @@ const TableRow = () => {
   }
 };
 
-export const Risks = (props) => {
+export const Risks = (project) => {
   const [risk_name, setRisk_name] = useState("");
   const [risk_desc, setRisk_desc] = useState("");
   const [risk_solution, setRisk_solution] = useState("");
   const [risk_severity, setRisk_severity] = useState("");
   const [risk_budget, setRisk_budget] = useState("");
   const [risks, setRisks] = useState([]);
-
   const handleSubmit = (event) => {
     event.preventDefault();
-    // console.log(
-    //   project_name,
-    //   project_desc
-    //   project_start_date,
-    //   project_end_date,
-    //   project_budget
-    // );
-    risks.push({
+    const risk = project.name + "_risks";
+    let oldRisks = JSON.parse(localStorage.getItem(risk)) || [];
+    let newRisk = {
       risk_name: risk_name,
       risk_desc: risk_desc,
       risk_solution: risk_solution,
       risk_severity: risk_severity,
       risk_budget: risk_budget,
-    });
-    setRisks(risks);
-    const risk = props.name + "_risks";
-    localStorage.setItem(risk, JSON.stringify(risks));
+    };
+    oldRisks.push(newRisk);
+
+    localStorage.setItem(risk, JSON.stringify(oldRisks));
     // localStorage.removeItem(props.name + "_risks");
+
+    // Clear form
+    setRisk_name("");
+    setRisk_desc("");
+    setRisk_solution("");
+    setRisk_severity("");
+    setRisk_budget("");
   };
-  console.log(props.name);
+  // console.log(props.name);
   return (
     <div>
       {/* Risks Table  */}

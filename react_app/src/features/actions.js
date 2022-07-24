@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialStateValue = "No Actions found";
+const initialStateValue = "";
 export const projectactionsSlice = createSlice({
   name: "projectactions",
   initialState: { value: initialStateValue },

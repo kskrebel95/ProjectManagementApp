@@ -17,16 +17,19 @@ export const CreateProject = () => {
     //   project_end_date,
     //   project_budget
     // );
-    projects.push({
+    const updated_projects = [...projects];
+
+    updated_projects.push({
       project_name: project_name,
       project_desc: project_desc,
       project_start_date: project_start_date,
       project_end_date: project_end_date,
       project_budget: project_budget,
     });
-    setProjects(projects);
 
-    localStorage.setItem("projects", JSON.stringify(projects));
+    setProjects(updated_projects);
+
+    localStorage.setItem("projects", JSON.stringify(updated_projects));
     // localStorage.removeItem("projects");
 
     // console.log(projects);
@@ -125,5 +128,3 @@ export const CreateProject = () => {
     </div>
   );
 };
-
-// Next thing you want to do is submit data in form then capture in a project component

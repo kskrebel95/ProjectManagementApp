@@ -326,17 +326,19 @@ const projects = JSON.parse(localStorage.getItem("projects"));
 //   );
 // };
 
-export const EachProject = () => {
+export const EachProjectDetialsList = () => {
   const params = useParams();
   //   console.log(params);
   const job = projects[params.projectname];
 
   return (
-    <div>
-      <h1 className="title">{job.project_name} Project</h1>
-      <Actions name={job.project_name} />
-      <Risks name={job.project_name} />
-      <Issues name={job.project_name} />
+    <div className="columns">
+      <div className="column is-centered">
+        <h1 className="title">{job.project_name} Project</h1>
+        <Actions name={job.project_name} />
+        <Risks name={job.project_name} />
+        <Issues name={job.project_name} />
+      </div>
     </div>
   );
 };
