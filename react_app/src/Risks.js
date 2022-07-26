@@ -1,8 +1,7 @@
 import React from "react";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-
-const projects = JSON.parse(localStorage.getItem("projects"));
 
 const TableRow = () => {
   const params = useParams();

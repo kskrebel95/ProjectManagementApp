@@ -1,10 +1,13 @@
 import React from "react";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-const projects = JSON.parse(localStorage.getItem("projects"));
+// const { projects } = useSelector((state) => state.project);
 
 const TableRowFromLocal = () => {
+  const { projects } = useSelector((state) => state.project);
+
   const params = useParams();
   // console.log(params.projectname);
   // console.log(projects[params.projectname].project_name);

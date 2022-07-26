@@ -3,8 +3,9 @@ import { useParams } from "react-router-dom";
 import { Actions } from "./Actions";
 import { Risks } from "./Risks";
 import { Issues } from "./Issues";
+import { useSelector } from "react-redux";
 
-const projects = JSON.parse(localStorage.getItem("projects"));
+// const projects = JSON.parse(localStorage.getItem("projects"));
 
 // const Risks = () => {
 //   return (
@@ -327,18 +328,22 @@ const projects = JSON.parse(localStorage.getItem("projects"));
 // };
 
 export const EachProjectDetialsList = () => {
-  const params = useParams();
-  //   console.log(params);
-  const job = projects[params.projectname];
+  const { projects } = useSelector((state) => state.project);
+
+  // const params = useParams();
+  // console.log(params);
+  console.log(projects);
+  // const job = projects[params.projectname];
 
   return (
     <div className="columns">
-      <div className="column is-centered">
+      <h1>Welcome</h1>
+      {/* <div className="column is-centered">
         <h1 className="title">{job.project_name} Project</h1>
-        <Actions name={job.project_name} />
-        <Risks name={job.project_name} />
-        <Issues name={job.project_name} />
-      </div>
+        <Actions project_name={job.project_name} />
+         <Risks name={job.project_name} />
+         <Issues name={job.project_name} /> 
+      </div>*/}
     </div>
   );
 };

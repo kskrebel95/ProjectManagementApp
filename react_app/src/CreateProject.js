@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { createProject, getProjects } from "./ducks/project/actions";
 
 export const CreateProject = () => {
   const [project_name, setProject_name] = useState("");
@@ -6,7 +9,10 @@ export const CreateProject = () => {
   const [project_start_date, setProject_start_date] = useState("");
   const [project_end_date, setProject_end_date] = useState("");
   const [project_budget, setProject_budget] = useState("");
-  const [projects, setProjects] = useState([]);
+  // const [projects, setProjects] = useState([]);
+  const { projects } = useSelector((state) => state.project);
+  const dispatch = useDispatch();
+  console.log({ projects });
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -17,19 +23,29 @@ export const CreateProject = () => {
     //   project_end_date,
     //   project_budget
     // );
-    const updated_projects = [...projects];
+    // console.log(projects);
+    // const updated_projects = [...projects];
+    const project_id = Math.floor(Math.random() * 10000);
+    const new_project = {
+      project_id,
+      project_name,
+      project_desc,
+      project_start_date,
+      project_end_date,
+      project_budget,
+    };
+    createProject({ dispatch, new_project });
+    // updated_projects.push({
+    //   project_name: project_name,
+    //   project_desc: project_desc,
+    //   project_start_date: project_start_date,
+    //   project_end_date: project_end_date,
+    //   project_budget: project_budget,
+    // });
 
-    updated_projects.push({
-      project_name: project_name,
-      project_desc: project_desc,
-      project_start_date: project_start_date,
-      project_end_date: project_end_date,
-      project_budget: project_budget,
-    });
+    // setProjects(updated_projects);
 
-    setProjects(updated_projects);
-
-    localStorage.setItem("projects", JSON.stringify(updated_projects));
+    // localStorage.setItem("projects", JSON.stringify(updated_projects));
     // localStorage.removeItem("projects");
 
     // console.log(projects);
@@ -120,6 +136,9 @@ export const CreateProject = () => {
             <div className="buttons">
               <button className="button is-primary" type="submit">
                 Submit
+              </button>
+              <button className="button is-info">
+                <Link to="/">Home</Link>
               </button>
             </div>
           </form>

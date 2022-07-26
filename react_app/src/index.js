@@ -6,17 +6,20 @@ import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import userReducer from "./features/user";
 import projectActionsReducer from "./features/actions";
+import { createStore } from "redux";
+import RootReducer from "./RootReducer";
 
 // Creating store which is used to hold all the states we wmay like to change
-const store = configureStore({
-  //reducer is a function that takes in the prev value of that state
-  // the action youd like carried out and the new value
+const store = createStore(RootReducer);
+// const store = configureStore({
+//   //reducer is a function that takes in the prev value of that state
+//   // the action youd like carried out and the new value
 
-  reducer: {
-    user: userReducer,
-    projectactions: projectActionsReducer,
-  },
-});
+//   reducer: {
+//     user: userReducer,
+//     projectactions: projectActionsReducer,
+//   },
+// });
 
 const root_element = document.getElementById("root");
 const react_root = createRoot(root_element);
