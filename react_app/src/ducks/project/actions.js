@@ -22,3 +22,7 @@ export const createProject = ({ dispatch, new_project }) => {
 export const deleteProject = ({ dispatch, new_project }) => {
   dispatch({ type: DELETE_PROJECT, payload: { new_project } });
 };
+
+export const updatedProject = ({ dispatch, new_project }) => {
+  dispatch({ type: UPDATE_PROJECT, payload: { new_project } });
+};

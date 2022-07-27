@@ -27,6 +27,7 @@ export const Actions = () => {
   const [action_budget, setAction_budget] = useState("");
   const [action_severity, setAction_severity] = useState("");
   const [actions, setActions] = useState([]);
+  // const [filtered_actions, set_Filtered_Actions] = useState([]);
 
   const { project_id, project_name } = useParams();
   console.log(project_id);
@@ -34,9 +35,10 @@ export const Actions = () => {
   const { projects } = useSelector((state) => state.project);
   // console.log(projects);
 
-  // const filtered_actions = actions.filter((each_action) => {
-  //   return (each_action.project_id = project_id);
-  // });
+  const filtered_actions = actions.filter((action) => {
+    console.log({ project_id, x: action.project_id });
+    return action.project_id == project_id;
+  });
 
   // console.log(actions);
   // console.log(filtered_actions);
@@ -46,11 +48,15 @@ export const Actions = () => {
     console.log(updated_actions);
     setActions(updated_actions);
   }, []);
+
+  // useEffect(()=>{
+
+  // });
   // const dispatch = useDispatch();
   const handleSubmit = (event) => {
     event.preventDefault();
-    // let oldActions = JSON.parse(localStorage.getItem("actions")) || [];
-    let oldActions = [];
+    let oldActions = JSON.parse(localStorage.getItem("actions")) || [];
+    //let oldActions = [];
 
     let newAction = {
       project_id,
@@ -86,7 +92,7 @@ export const Actions = () => {
           <thead>
             <tr>
               <th>
-                <abbr>Porject ID</abbr>
+                <abbr>Project ID</abbr>
               </th>
               <th>
                 <abbr>Name</abbr>
@@ -110,7 +116,7 @@ export const Actions = () => {
           {/* {actions.map((action, i) => {
               return <GenerateTableRow key={i} project_data={action} />;
             })} */}
-          {/* <GenerateTableRow project_data={filtered_actions} /> */}
+          <GenerateTableRow project_data={filtered_actions} />
           {/* {actions.map((action, i) => {
               return <TableRow key={i} action={action} />;
             })} */}

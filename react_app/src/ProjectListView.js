@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { GenerateTableRow } from "./GenerateTableRow";
 
 export const ProjectListView = () => {
   const { projects } = useSelector((state) => state.project);
@@ -38,7 +39,6 @@ export const ProjectListView = () => {
           <thead>
             <tr>
               <th>Project ID</th>
-
               <th>Project Name</th>
               <th>Project Description </th>
               <th>Project Start Date</th>
@@ -47,7 +47,8 @@ export const ProjectListView = () => {
             </tr>
           </thead>
           <tbody>
-            {projects.map((project, i) => (
+            <GenerateTableRow project_data={projects} />
+            {/* {projects.map((project, i) => (
               <tr className="project_data_details" key={project.project_id}>
                 <td>{project.project_id}</td>
                 <td>{project.project_name}</td>
@@ -56,7 +57,7 @@ export const ProjectListView = () => {
                 <td>{project.project_end_date}</td>
                 <td>{project.project_budget}</td>
               </tr>
-            ))}
+            ))} */}
           </tbody>
         </table>
       </div>

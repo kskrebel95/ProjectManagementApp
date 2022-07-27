@@ -14,7 +14,7 @@ export const HomePageMenu = () => {
             <Link to="/create-project">Create Projects</Link>
           </button>
           <button className="button is-warning">
-            <Link to="/delete-project">Update Projects</Link>
+            <Link to="/update-project">Update Projects</Link>
           </button>
           <button className="button is-danger">
             <Link to="/delete-project">Delete Projects</Link>
