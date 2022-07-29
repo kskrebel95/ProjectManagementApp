@@ -5,19 +5,20 @@ import { deleteProject } from "./ducks/project/actions";
 import { ProjectListView } from "./ProjectListView";
 
 export const DeleteProject = () => {
-  const [project_name, setProject_name] = useState("");
+  const [project_id, setProjectId] = useState("");
   const { projects } = useSelector((state) => state.project);
   const dispatch = useDispatch();
   console.log(projects);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(project_name);
-    const new_project = projects.filter(
-      (project) => project.project_name != project_name
-    );
-    console.log(new_project);
-    deleteProject({ dispatch, new_project });
+    console.log(projects, project_id);
+    deleteProject({ dispatch, projects, project_id });
+    // const new_project = projects.filter(
+    //   (project) => project.project_id != project_id
+    // );
+    //   console.log(new_project);
+    //   deleteProject({ dispatch, new_project });
   };
 
   return (
@@ -30,16 +31,14 @@ export const DeleteProject = () => {
               <form onSubmit={handleSubmit}>
                 {/* Project name  */}
                 <div className="field">
-                  <label className="label">
-                    Project NAME to Delete Project
-                  </label>
+                  <label className="label">Project ID to Delete Project</label>
                   <div className="control">
                     <input
                       className="input is-success"
                       type="text"
-                      value={project_name}
-                      onChange={(ev) => setProject_name(ev.target.value)}
-                      placeholder="Enter project name"
+                      value={project_id}
+                      onChange={(ev) => setProjectId(ev.target.value)}
+                      placeholder="Enter project ID"
                     />
                   </div>
                 </div>

@@ -5,27 +5,34 @@ import { updatedProject } from "./ducks/project/actions";
 import { ProjectListView } from "./ProjectListView";
 
 export const UpdateProject = () => {
-  const [project_id, setProject_id] = useState("");
-  const [project_name, setProject_name] = useState("");
-  const [project_desc, setProject_desc] = useState("");
-  const [project_start_date, setProject_start_date] = useState("");
-  const [project_end_date, setProject_end_date] = useState("");
-  const [project_budget, setProject_budget] = useState("");
-
+  const [project_id, setProjectId] = useState("");
+  const [project_name, setProjectName] = useState("");
+  const [project_desc, setProjectDesc] = useState("");
+  const [project_start_date, setProjectStartDate] = useState("");
+  const [project_end_date, setProjectEndDate] = useState("");
+  const [project_budget, setProjectBudget] = useState("");
   const { projects } = useSelector((state) => state.project);
   const dispatch = useDispatch();
   console.log(projects);
 
+  const row_modal = document.querySelectorAll("tr");
+  console.log(row_modal);
+  row_modal.forEach((row) => {
+    // row.setAttribute("onclick", "openModal()");
+    console.log(row);
+  });
+
+  // const openModal = () => {
+  //   console.log("row clicked");
+  // };
   const handleSubmit = (event) => {
     event.preventDefault();
-    let found_project_index;
     const found_project = projects.find((project, i) => {
-      found_project_index = i;
       return project.project_id == project_id;
     });
     if (found_project) {
       // console.log(found_project, found_project_index);
-      const updated_project = {
+      const updates = {
         project_id,
         project_name,
         project_desc,
@@ -33,10 +40,10 @@ export const UpdateProject = () => {
         project_end_date,
         project_budget,
       };
-      const new_project = projects;
-      new_project[found_project_index] = updated_project;
+      // const new_project = projects;
+      // new_project[found_project_index] = updated_project;
       // console.log(new_project);
-      updatedProject({ dispatch, new_project });
+      updatedProject({ dispatch, projects, project_id, updates });
     } else {
       alert("Incorrect Project ID. Please try again");
     }
@@ -59,9 +66,7 @@ export const UpdateProject = () => {
                       className="input is-success"
                       type="number"
                       value={project_id}
-                      onChange={(ev) =>
-                        setProject_id(parseInt(ev.target.value))
-                      }
+                      onChange={(ev) => setProjectId(parseInt(ev.target.value))}
                       placeholder="Enter valid Product ID"
                     />
                   </div>
@@ -74,7 +79,7 @@ export const UpdateProject = () => {
                       className="input is-success"
                       type="text"
                       value={project_name}
-                      onChange={(ev) => setProject_name(ev.target.value)}
+                      onChange={(ev) => setProjectName(ev.target.value)}
                       placeholder="Text input"
                     />
                   </div>
@@ -86,7 +91,7 @@ export const UpdateProject = () => {
                     <textarea
                       className="textarea"
                       value={project_desc}
-                      onChange={(ev) => setProject_desc(ev.target.value)}
+                      onChange={(ev) => setProjectDesc(ev.target.value)}
                       placeholder="Textarea"
                     ></textarea>
                   </div>
@@ -100,7 +105,7 @@ export const UpdateProject = () => {
                       className="input is-success"
                       type="date"
                       value={project_start_date}
-                      onChange={(ev) => setProject_start_date(ev.target.value)}
+                      onChange={(ev) => setProjectStartDate(ev.target.value)}
                     />
                   </div>
                 </div>
@@ -113,7 +118,7 @@ export const UpdateProject = () => {
                       className="input is-success"
                       type="date"
                       value={project_end_date}
-                      onChange={(ev) => setProject_end_date(ev.target.value)}
+                      onChange={(ev) => setProjectEndDate(ev.target.value)}
                     />
                   </div>
                 </div>
@@ -135,7 +140,7 @@ export const UpdateProject = () => {
                       className="input"
                       type="text"
                       value={project_budget}
-                      onChange={(ev) => setProject_budget(ev.target.value)}
+                      onChange={(ev) => setProjectBudget(ev.target.value)}
                       placeholder="Amount of money (0.00)"
                     />
                   </p>

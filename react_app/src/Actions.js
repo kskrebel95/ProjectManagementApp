@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { addToTable } from "./features/actions";
-import { GenerateTableRow } from "./GenerateTableRow";
+import { GenerateTable } from "./GenerateTable";
 
 // const TableRow = ({ action }) => {
 //   return (
@@ -20,45 +20,67 @@ import { GenerateTableRow } from "./GenerateTableRow";
 // };
 
 export const Actions = () => {
-  const [action_name, setAction_name] = useState("");
-  const [action_desc, setAction_desc] = useState("");
-  const [action_start_date, setAction_start_date] = useState("");
-  const [action_end_date, setAction_end_date] = useState("");
-  const [action_budget, setAction_budget] = useState("");
-  const [action_severity, setAction_severity] = useState("");
+  const [action_name, setActionName] = useState("");
+  const [action_desc, setActionDesc] = useState("");
+  const [action_start_date, setActionStartDate] = useState("");
+  const [action_end_date, setActionEndDate] = useState("");
+  const [action_budget, setActionBudget] = useState("");
+  const [action_severity, setActionSeverity] = useState("");
   const [actions, setActions] = useState([]);
-  // const [filtered_actions, set_Filtered_Actions] = useState([]);
+  const [filtered_actions, setFilteredActions] = useState([]);
+  const [modal_style, setModalStyle] = useState(
+    document.getElementById("modal")
+  );
 
   const { project_id, project_name } = useParams();
   console.log(project_id);
 
   const { projects } = useSelector((state) => state.project);
-  // console.log(projects);
-
-  const filtered_actions = actions.filter((action) => {
-    console.log({ project_id, x: action.project_id });
-    return action.project_id == project_id;
-  });
-
-  // console.log(actions);
-  // console.log(filtered_actions);
+  const headings = [
+    { heading: "Project ID" },
+    { heading: "Project Name" },
+    { heading: "Project Description" },
+    { heading: "Project Severity" },
+    { heading: "Project Cost ($)" },
+    { heading: "Project Start Date" },
+    { heading: "Project End Date" },
+  ];
 
   useEffect(() => {
     const updated_actions = JSON.parse(localStorage.getItem("actions"));
     console.log(updated_actions);
     setActions(updated_actions);
+
+    if (updated_actions) {
+      const filter_actions = updated_actions.filter((action) => {
+        // console.log({ project_id, x: action.project_id });
+        return action.project_id == project_id;
+      }, []);
+      // console.log(afiltered_actions);
+      setFilteredActions(filter_actions);
+    }
+
+    // console.log(actions);
   }, []);
 
-  // useEffect(()=>{
-
-  // });
-  // const dispatch = useDispatch();
+  const openModal = (event) => {
+    setModalStyle(document.getElementById("modal").classList.add("is-active"));
+    setModalStyle(document.getElementById("modal").classList.add("is-clipped"));
+  };
+  const closeModal = (event) => {
+    setModalStyle(
+      document.getElementById("modal").classList.remove("is-active")
+    );
+    setModalStyle(
+      document.getElementById("modal").classList.remove("is-clipped")
+    );
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
-    let oldActions = JSON.parse(localStorage.getItem("actions")) || [];
+    let old_actions = JSON.parse(localStorage.getItem("actions")) || [];
     //let oldActions = [];
 
-    let newAction = {
+    let new_action = {
       project_id,
       action_name,
       action_desc,
@@ -68,17 +90,18 @@ export const Actions = () => {
       action_severity,
     };
 
-    oldActions.push(newAction);
+    old_actions.push(new_action);
     // console.log(oldActions);
-    localStorage.setItem("actions", JSON.stringify(oldActions));
+    localStorage.setItem("actions", JSON.stringify(old_actions));
+    setFilteredActions([...filtered_actions, new_action]);
 
     // Clear form
-    setAction_name("");
-    setAction_desc("");
-    setAction_severity("");
-    setAction_start_date("");
-    setAction_end_date("");
-    setAction_budget("");
+    setActionName("");
+    setActionDesc("");
+    setActionSeverity("");
+    setActionStartDate("");
+    setActionEndDate("");
+    setActionBudget("");
   };
   // console.log(props.name);
   return (
@@ -88,7 +111,9 @@ export const Actions = () => {
         <h1 className="title">
           Actions-{project_name}-{project_id}
         </h1>
-        <table className="table">
+        <GenerateTable headings={headings} items={filtered_actions} />
+      </div>
+      {/* <table className="table">
           <thead>
             <tr>
               <th>
@@ -112,22 +137,20 @@ export const Actions = () => {
               </th>
             </tr>
           </thead>
-
-          {/* {actions.map((action, i) => {
+          {actions.map((action, i) => {
               return <GenerateTableRow key={i} project_data={action} />;
-            })} */}
-          <GenerateTableRow project_data={filtered_actions} />
-          {/* {actions.map((action, i) => {
+            })}
+          {actions.map((action, i) => {
               return <TableRow key={i} action={action} />;
-            })} */}
-          {/* <TableRowFromRedux /> */}
-        </table>
-      </div>
-      {/* Add Action */}
+            })}
+          <TableRowFromRedux />
+        </table> 
+      
+     
       <div className="column is-half">
         <h1 className="title">Add Action</h1>
         <form onSubmit={handleSubmit}>
-          {/* Action name  */}
+           Action name  
           <div className="field">
             <label className="label">Name</label>
             <div className="control">
@@ -136,25 +159,25 @@ export const Actions = () => {
                 type="text"
                 value={action_name}
                 onChange={(ev) => {
-                  setAction_name(ev.target.value);
+                  setActionName(ev.target.value);
                 }}
                 placeholder="Text input"
               />
             </div>
           </div>
-          {/* Action Description  */}
+         
           <div className="field">
             <label className="label"> Description</label>
             <div className="control">
               <textarea
                 className="textarea"
                 value={action_desc}
-                onChange={(ev) => setAction_desc(ev.target.value)}
+                onChange={(ev) => setActionDesc(ev.target.value)}
                 placeholder="Textarea"
               ></textarea>
             </div>
           </div>
-          {/* Action Severity  */}
+          
           <div className="field">
             <label className="label">Severity</label>
             <div className="control">
@@ -162,7 +185,7 @@ export const Actions = () => {
                 <select
                   type="text"
                   value={action_severity}
-                  onChange={(ev) => setAction_severity(ev.target.value)}
+                  onChange={(ev) => setActionSeverity(ev.target.value)}
                 >
                   <option value="High">High</option>
                   <option value="Moderate">Moderate</option>
@@ -171,7 +194,7 @@ export const Actions = () => {
               </div>
             </div>
 
-            {/* Action Budget  */}
+           
 
             <div>
               <label className="label">Cost</label>
@@ -189,13 +212,13 @@ export const Actions = () => {
                   className="input"
                   type="text"
                   value={action_budget}
-                  onChange={(ev) => setAction_budget(ev.target.value)}
+                  onChange={(ev) => setActionBudget(ev.target.value)}
                   placeholder="Amount of money (0.00)"
                 />
               </p>
             </div>
           </div>
-          {/* Action Start Date */}
+          
 
           <div className="field">
             <label className="label">Start Date</label>
@@ -204,11 +227,11 @@ export const Actions = () => {
                 className="input is-success"
                 type="date"
                 value={action_start_date}
-                onChange={(ev) => setAction_start_date(ev.target.value)}
+                onChange={(ev) => setActionStartDate(ev.target.value)}
               />
             </div>
           </div>
-          {/* Action End Date  */}
+          
 
           <div className="field">
             <label className="label">End Date</label>
@@ -217,19 +240,142 @@ export const Actions = () => {
                 className="input is-success"
                 type="date"
                 value={action_end_date}
-                onChange={(ev) => setAction_end_date(ev.target.value)}
+                onChange={(ev) => setActionEndDate(ev.target.value)}
               />
             </div>
           </div>
 
-          {/* Submit Action  */}
+         
           <div className="buttons">
             <button className="button is-primary" type="submit">
               Add New Action
             </button>
           </div>
         </form>
+      </div>*/}
+      {/* Modal  */}
+      <div id="modal" className="modal">
+        <div className="modal-background"></div>
+        <div className="modal-card">
+          <header className="modal-card-head">
+            <p className="modal-card-title">Add New Action</p>
+            <button
+              className="delete"
+              aria-label="close"
+              onClick={closeModal}
+            ></button>
+          </header>
+          <section className="modal-card-body">
+            <form onSubmit={handleSubmit}>
+              {/* Action name  */}
+              <div className="field">
+                <label className="label">Name</label>
+                <div className="control">
+                  <input
+                    className="input is-success"
+                    type="text"
+                    value={action_name}
+                    onChange={(ev) => {
+                      setActionName(ev.target.value);
+                    }}
+                    placeholder="Text input"
+                  />
+                </div>
+              </div>
+              {/* Action Description  */}
+              <div className="field">
+                <label className="label"> Description</label>
+                <div className="control">
+                  <textarea
+                    className="textarea"
+                    value={action_desc}
+                    onChange={(ev) => setActionDesc(ev.target.value)}
+                    placeholder="Textarea"
+                  ></textarea>
+                </div>
+              </div>
+              {/* Action Severity  */}
+              <div className="field">
+                <label className="label">Severity</label>
+                <div className="control">
+                  <div className="select">
+                    <select
+                      type="text"
+                      value={action_severity}
+                      onChange={(ev) => setActionSeverity(ev.target.value)}
+                    >
+                      <option value="High">High</option>
+                      <option value="Moderate">Moderate</option>
+                      <option value="Low">Low</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Action Budget  */}
+
+                <div>
+                  <label className="label">Cost</label>
+                  <p className="control">
+                    <span className="select">
+                      <select>
+                        <option>$</option>
+                        <option>£</option>
+                        <option>€</option>
+                      </select>
+                    </span>
+                  </p>
+                  <p className="control">
+                    <input
+                      className="input"
+                      type="text"
+                      value={action_budget}
+                      onChange={(ev) => setActionBudget(ev.target.value)}
+                      placeholder="Amount of money (0.00)"
+                    />
+                  </p>
+                </div>
+              </div>
+              {/* Action Start Date */}
+
+              <div className="field">
+                <label className="label">Start Date</label>
+                <div className="control">
+                  <input
+                    className="input is-success"
+                    type="date"
+                    value={action_start_date}
+                    onChange={(ev) => setActionStartDate(ev.target.value)}
+                  />
+                </div>
+              </div>
+              {/* Action End Date  */}
+
+              <div className="field">
+                <label className="label">End Date</label>
+                <div className="control">
+                  <input
+                    className="input is-success"
+                    type="date"
+                    value={action_end_date}
+                    onChange={(ev) => setActionEndDate(ev.target.value)}
+                  />
+                </div>
+              </div>
+            </form>
+          </section>
+          <footer className="modal-card-foot">
+            <button className="button is-success" onClick={handleSubmit}>
+              Submit
+            </button>
+            <button className="button" onClick={closeModal}>
+              Cancel
+            </button>
+          </footer>
+        </div>
       </div>
+      <button className="button is-primary" onClick={openModal}>
+        Add New Action
+      </button>
     </div>
   );
 };

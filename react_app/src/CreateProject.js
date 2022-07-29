@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 import { createProject, getProjects } from "./ducks/project/actions";
 
 export const CreateProject = () => {
-  const [project_name, setProject_name] = useState("");
-  const [project_desc, setProject_desc] = useState("");
-  const [project_start_date, setProject_start_date] = useState("");
-  const [project_end_date, setProject_end_date] = useState("");
-  const [project_budget, setProject_budget] = useState("");
+  const [project_name, setProjectName] = useState("");
+  const [project_desc, setProjectDesc] = useState("");
+  const [project_start_date, setProjectStartDate] = useState("");
+  const [project_end_date, setProjectEndDate] = useState("");
+  const [project_budget, setProjectBudget] = useState("");
   // const [projects, setProjects] = useState([]);
   const { projects } = useSelector((state) => state.project);
   const dispatch = useDispatch();
@@ -65,7 +65,7 @@ export const CreateProject = () => {
                   className="input is-success"
                   type="text"
                   value={project_name}
-                  onChange={(ev) => setProject_name(ev.target.value)}
+                  onChange={(ev) => setProjectName(ev.target.value)}
                   placeholder="Text input"
                 />
               </div>
@@ -77,7 +77,7 @@ export const CreateProject = () => {
                 <textarea
                   className="textarea"
                   value={project_desc}
-                  onChange={(ev) => setProject_desc(ev.target.value)}
+                  onChange={(ev) => setProjectDesc(ev.target.value)}
                   placeholder="Textarea"
                 ></textarea>
               </div>
@@ -91,7 +91,7 @@ export const CreateProject = () => {
                   className="input is-success"
                   type="date"
                   value={project_start_date}
-                  onChange={(ev) => setProject_start_date(ev.target.value)}
+                  onChange={(ev) => setProjectStartDate(ev.target.value)}
                 />
               </div>
             </div>
@@ -104,7 +104,7 @@ export const CreateProject = () => {
                   className="input is-success"
                   type="date"
                   value={project_end_date}
-                  onChange={(ev) => setProject_end_date(ev.target.value)}
+                  onChange={(ev) => setProjectEndDate(ev.target.value)}
                 />
               </div>
             </div>
@@ -126,7 +126,7 @@ export const CreateProject = () => {
                   className="input"
                   type="text"
                   value={project_budget}
-                  onChange={(ev) => setProject_budget(ev.target.value)}
+                  onChange={(ev) => setProjectBudget(ev.target.value)}
                   placeholder="Amount of money (0.00)"
                 />
               </p>

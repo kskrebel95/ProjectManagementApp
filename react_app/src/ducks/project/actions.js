@@ -19,10 +19,16 @@ export const createProject = ({ dispatch, new_project }) => {
   dispatch({ type: CREATE_PROJECT, payload: { new_project } });
 };
 
-export const deleteProject = ({ dispatch, new_project }) => {
-  dispatch({ type: DELETE_PROJECT, payload: { new_project } });
+export const deleteProject = ({ dispatch, projects, project_id }) => {
+  dispatch({
+    type: DELETE_PROJECT,
+    payload: { dispatch, projects, project_id },
+  });
 };
 
-export const updatedProject = ({ dispatch, new_project }) => {
-  dispatch({ type: UPDATE_PROJECT, payload: { new_project } });
+export const updatedProject = ({ dispatch, projects, project_id, updates }) => {
+  dispatch({
+    type: UPDATE_PROJECT,
+    payload: { dispatch, projects, project_id, updates },
+  });
 };
