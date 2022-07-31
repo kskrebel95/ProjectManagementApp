@@ -11,12 +11,14 @@ import { Actions } from "./Actions";
 import { ReduxPractice } from "./components/ReduxPractice";
 import { getProjects } from "./ducks/project/actions";
 import { useDispatch, useSelector } from "react-redux";
+import { getActions } from "./ducks/action/actions";
 
 export const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     console.log("use effect");
     getProjects({ dispatch });
+    getActions({ dispatch });
   }, []);
   return (
     <div>

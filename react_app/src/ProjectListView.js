@@ -24,13 +24,9 @@ export const ProjectListView = () => {
   ];
 
   const searchTable = (value) => {
-    const search_value = value.toLowerCase();
+    const search_value = value;
     console.log(typeof search_value);
-
-    // filtered_projects.forEach((project) => {
-    //   console.log(project);
-    // });
-
+    setFilteredProjects(projects);
     const filter_projects = filtered_projects.filter((project) => {
       if (
         project.project_id
@@ -40,9 +36,22 @@ export const ProjectListView = () => {
       ) {
         return project;
       }
+      // Object.values(project).forEach((item) => {
+      //   // console.log(item.toString().toLowerCase());
+      //   if (
+      //     item
+      //       .toString()
+      //       .toLowerCase()
+      //       .includes(search_value.toString().toLowerCase())
+      //   ) {
+      //     console.log(project);
+      //     return project;
+      //   }
+      // });
     });
 
     console.log(filter_projects);
+    setFilteredProjects(filter_projects);
     // const table_row = document.getElementsByClassName("project_data_details");
     // for (let i = 0; i < table_row.length; i++) {
     //   if (table_row[i].textContent.toLowerCase().includes(search_value)) {
