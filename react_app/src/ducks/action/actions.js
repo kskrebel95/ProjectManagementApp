@@ -15,8 +15,8 @@ export const getActions = ({ dispatch }) => {
   dispatch({ type: GET_ACTIONS, payload: { actions } });
 };
 
-export const createAction = ({ dispatch, new_action }) => {
-  dispatch({ type: CREATE_ACTION, payload: { new_action } });
+export const createAction = ({ dispatch, actions, new_action }) => {
+  dispatch({ type: CREATE_ACTION, payload: { actions, new_action } });
 };
 
 export const deleteAction = ({ dispatch, project_id, action_name }) => {

@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { addToTable } from "./features/actions";
 import { GenerateTable } from "./GenerateTable";
-import { createAction, deleteAction } from "./ducks/action/actions";
+import { createAction, deleteAction, getActions } from "./ducks/action/actions";
 
 // const TableRow = ({ action }) => {
 //   return (
@@ -36,17 +36,17 @@ export const Actions = () => {
   const dispatch = useDispatch();
 
   const { project_id, project_name } = useParams();
-  console.log(project_id);
+  // console.log(project_id);
 
   const { projects } = useSelector((state) => state.project);
   const headings = [
-    { heading: "Project ID" },
-    { heading: "Project Name" },
-    { heading: "Project Description" },
-    { heading: "Project Severity" },
-    { heading: "Project Cost ($)" },
-    { heading: "Project Start Date" },
-    { heading: "Project End Date" },
+    { heading: "Action ID" },
+    { heading: "Action Name" },
+    { heading: "Action Description" },
+    { heading: "Action Severity" },
+    { heading: "Action Cost ($)" },
+    { heading: "Action Start Date" },
+    { heading: "Action End Date" },
   ];
 
   useEffect(() => {
@@ -92,7 +92,7 @@ export const Actions = () => {
     // old_actions.push(new_action);
     // console.log(oldActions);
     // localStorage.setItem("actions", JSON.stringify(old_actions));
-    createAction({ dispatch, new_action });
+    createAction({ dispatch, actions, new_action });
     setFilteredActions([...filtered_actions, new_action]);
 
     // Clear form
@@ -105,7 +105,6 @@ export const Actions = () => {
   };
   const deleteActionFormSubmit = () => {
     event.preventDefault();
-    // console.log(project_id, action_name);
     deleteAction({ dispatch, project_id, action_name });
   };
   // console.log(props.name);

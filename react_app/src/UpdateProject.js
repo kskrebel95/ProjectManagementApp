@@ -15,16 +15,6 @@ export const UpdateProject = () => {
   const dispatch = useDispatch();
   console.log(projects);
 
-  const row_modal = document.querySelectorAll("tr");
-  console.log(row_modal);
-  row_modal.forEach((row) => {
-    // row.setAttribute("onclick", "openModal()");
-    console.log(row);
-  });
-
-  // const openModal = () => {
-  //   console.log("row clicked");
-  // };
   const handleSubmit = (event) => {
     event.preventDefault();
     const found_project = projects.find((project, i) => {
